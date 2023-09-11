@@ -12,7 +12,6 @@
                         <!-- Password -->
                         <div>
                             <!-- Nom du projet -->
-
                             <x-input-label for="nom" :value="__('Nom du projet')" />
                             <x-text-input id="nom" class="block mt-1 w-full" type="text" name="nom" :value="old('nom')" required autofocus autocomplete="nom" />
                             <x-input-error :messages="$errors->get('nom')" class="mt-2" />
@@ -27,35 +26,18 @@
                             </select>
 
                             <!-- Status -->
-                            {{-- <x-input-label for="status" :value="__('Status')" />
-                            <select name="status_id" class="form-select" required>
-                                <option value="">Sélectionnez un status</option>
-                                @foreach($allStatus as $status)
-                                    <option value="{{ $status->id }}">{{ $status->nom }}</option>
-                                @endforeach
-                            </select> --}}
 
                             <!-- Montant investi -->
                             <x-input-label class="mt-2" for="montantInvesti" :value="__('Montant investi')" />
-                            <x-text-input id="montantInvesti" class="block mt-1 w-full" type="number" name="nom" :value="old('montantInvesti')" step="0.1" required autofocus autocomplete="montantInvesti" />
+                            <x-text-input id="montantInvesti" class="block mt-1 w-full" type="number" name="montantInvesti" :value="old('montantInvesti')" step="0.1" required autofocus />
                             <x-input-error :messages="$errors->get('montantInvesti')" class="mt-2" />
 
                             <!-- Frais -->
                             <x-input-label class="mt-2" for="frais" :value="__('Frais')" />
-                            <x-text-input id="frais" class="block mt-1 w-full" type="number" name="frais" :value="old('frais')" step="0.1" required autofocus autocomplete="frais" />
+                            <x-text-input id="frais" class="block mt-1 w-full" type="number" name="frais" :value="old('frais')" step="0.1" required autofocus />
                             <x-input-error :messages="$errors->get('frais')" class="mt-2" />
 
-                            <!-- Fiscalité -->
-                            <x-input-label class="mt-2 form-check-inline" for="fiscalite" :value="__('Fiscalité')" />
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="fiscalite" id="fiscalite_oui" value="oui">
-                                <label class="form-check-label" for="fiscalite_oui">Oui</label>
-                            </div>
-
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="fiscalite" id="fiscalite_non" value="non" checked>
-                                <label class="form-check-label" for="fiscalite_non">Non</label>
-                            </div>
+                            
 
                             <!-- Taux Brut -->
                             <x-input-label class="mt-2" for="tauxBrut" :value="__('Taux brut')" />

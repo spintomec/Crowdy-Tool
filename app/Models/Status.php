@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Projet;
 
-class Plateforme extends Model
+
+class Status extends Model
 {
     use HasFactory;
+
+    protected $table = 'status';
 
     public function projets(): HasMany
     {

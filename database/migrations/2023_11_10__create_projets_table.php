@@ -29,8 +29,8 @@ return new class extends Migration
             $table->decimal('gainFinal');
             $table->timestamps();
 
-            $table->foreign('status_id')->references('id')->on('status');
             $table->foreign('plateforme_id')->references('id')->on('plateformes');
+            $table->foreign('status_id')->references('id')->on('status');
             $table->foreign('versement_id')->references('id')->on('versements');
         });
     }

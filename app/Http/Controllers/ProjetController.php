@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjetRequest;
 use App\Models\Projet;
 use Illuminate\Http\Request;
 use App\Models\Plateforme;
@@ -35,10 +36,28 @@ class ProjetController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $this->validator($request->all())->validate();
+        
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:255',
+            'plateforme_id' => 'required|exists:plateformes,id',
+            'montantInvesti' => 'required|numeric',
+            'frais' => 'required|numeric',
+            // 'fiscalite' => 'required|boolean',
+            'tauxBrut' => 'required|numeric',
+            'dateDebut' => 'required|date',
+            'dateFin' => 'required|date',
+            'versement_id' => 'required|exists:versements,id',
+        ]);
+
+        $validatedData['status_id'] = $validatedData['status_id'] ?? 1;
+        $validatedData['tauxNet'] = $validatedData['tauxNet'] ?? 5;
+        $validatedData['duree'] = $validatedData['duree'] ?? 30;
+        $validatedData['gainMensu'] = $validatedData['gainMensu'] ?? 12;
+        $validatedData['gainFinal'] = $validatedData['gainFinal'] ?? 500;
+        $validatedData['fiscalite'] = $validatedData['fiscalite'] ?? true;
+
+
         $projet = Projet::create($validatedData);
-        $projet->plateforme()->associate($request->input('plateforme_id'));
-        $projet->versement()->associate($request->input('versement_id'));
         $projet->save();
         return redirect()->route('projets.index');
     }
