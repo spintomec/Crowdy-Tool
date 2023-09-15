@@ -19,11 +19,12 @@ return new class extends Migration
             $table->boolean('fiscalite');
             $table->decimal('tauxBrut');
             $table->decimal('tauxNet');
-            $table->integer('duree');
+            $table->decimal('duree');
             $table->dateTime('dateDebut');
             $table->dateTime('dateFin');
             $table->unsignedBigInteger('versement_id');
             $table->decimal('gainFinal');
+            $table->decimal('gainPonctuel');
             $table->timestamps();
 
             $table->foreign('plateforme_id')->references('id')->on('plateformes');

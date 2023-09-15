@@ -74,11 +74,32 @@
 
                             <!-- Date de début -->
                             <x-input-label class="mt-2" for="dateDebut" :value="__('Début')" />
-                            <input type="date" name="dateDebut" class="form-control" required>
+                            <input type="date" name="dateDebut" id="dateDebut" class="form-control" required>
 
                             <!-- Date de fin -->
                             <x-input-label class="mt-2" for="dateFin" :value="__('Fin')" />
-                            <input type="date" name="dateFin" class="form-control" required>
+                            <input type="date" name="dateFin" id="dateFin" class="form-control" required>
+
+                            <!-- Date fin > date début -->
+                            <script>
+                                const dateDebutInput = document.getElementById('dateDebut');
+                                const dateFinInput = document.getElementById('dateFin');
+
+                                // Fonction pour calculer la date minimale pour dateFin
+                                function setMinDateForDateFin() {
+                                    const dateDebutValue = new Date(dateDebutInput.value);
+                                    dateDebutValue.setDate(dateDebutValue.getDate() + 7); // Ajouter 1 semaine
+
+                                    // Formater la date en format ISO pour l'attribut min
+                                    const minDate = dateDebutValue.toISOString().split('T')[0];
+
+                                    dateFinInput.min = minDate;
+                                }
+
+                                dateDebutInput.addEventListener('change', setMinDateForDateFin);
+
+                                setMinDateForDateFin();
+                            </script>
 
                             <!-- Versement -->
                             <x-input-label class="mt-2" for="versement" :value="__('Type de Versement')" />

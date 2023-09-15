@@ -15,7 +15,7 @@ class Projet extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'plateforme_id', 'montantInvesti', 'frais', 'fiscalite', 'tauxBrut', 'tauxNet', 'duree', 'dateDebut', 'dateFin', 'versement_id', 'status_id', 'gainFinal'];
+    protected $fillable = ['nom', 'plateforme_id', 'montantInvesti', 'frais', 'fiscalite', 'tauxBrut', 'tauxNet', 'duree', 'dateDebut', 'dateFin', 'versement_id', 'status_id', 'gainFinal', 'gainPonctuel'];
 
 
     public function versement(): BelongsTo

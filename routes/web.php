@@ -36,8 +36,8 @@ Route::middleware('auth')->group(function () {
 
     // Remboursements
     Route::get('/remboursements', [RemboursementController::class, 'index'])->name('remboursements.index');
-    Route::get('/remboursements/create', [RemboursementController::class, 'create'])->name('remboursements.create');
-    Route::post('/remboursements/store', [RemboursementController::class, 'store'])->name('remboursements.store');
+    Route::get('/remboursements/create/{projet_id}', [RemboursementController::class, 'create'])->name('remboursements.create');
+    Route::post('/remboursements/store/{projet_id}', [RemboursementController::class, 'store'])->name('remboursements.store');
     Route::get('/remboursements/{remboursement}/edit', [RemboursementController::class, 'edit'])->name('remboursements.edit');
     Route::put('/remboursements/{remboursement}', [RemboursementController::class, 'update'])->name('remboursements.update');
     Route::delete('/remboursements/{remboursement}', [RemboursementController::class, 'destroy'])->name('remboursements.destroy');

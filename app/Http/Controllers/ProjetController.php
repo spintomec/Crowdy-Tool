@@ -18,12 +18,14 @@ class ProjetController extends Controller
             ->join('versements', 'projets.versement_id', '=', 'versements.id')
             ->join('plateformes', 'projets.plateforme_id', '=', 'plateformes.id')
             ->join('status', 'projets.status_id', '=', 'status.id')
-            ->leftJoin('remboursements', 'projets.id', '=', 'remboursements.projet_id') // Ajout de la jointure pour les remboursements
+            ->leftJoin('remboursements', 'projets.id', '=', 'remboursements.projet_id')
             ->select('projets.*', 'versements.nom as nom_versement', 'plateformes.nom as nom_plateforme', 'status.nom as nom_status', DB::raw('SUM(remboursements.montant) as total_montant'))
             ->groupBy('projets.id', 'versements.nom', 'plateformes.nom', 'status.nom', 'projets.dateDebut', 'projets.dateFin', 'projets.nom', 'projets.created_at', 'projets.updated_at')
             ->orderBy('nom_plateforme')
             ->orderBy('dateDebut')
             ->get();
+
+        
 
         return view('projets.index', compact('projets'));
     }
@@ -55,17 +57,33 @@ class ProjetController extends Controller
         // Calcul de la durée
         $dateDebut = Carbon::parse($request->input('dateDebut'));
         $dateFin = Carbon::parse($request->input('dateFin'));
-        $duree = $dateDebut->diff($dateFin);
-        $validatedData['duree'] = $duree->m;
+        $duree = $dateDebut->floatDiffInMonths($dateFin);
+        $validatedData['duree'] = $duree;
+        $versement = Versement::find($validatedData['versement_id']);
+        $typeVersement = $versement->nom;
 
         // Calcul du tauxNet en fonction de la fiscalité
         if ($validatedData['fiscalite'] == 0) {
-            $validatedData['tauxNet'] = $validatedData['tauxBrut'] * 0.7;
+            $validatedData['tauxNet'] = ($validatedData['tauxBrut'] - $validatedData['frais']) * 0.7;
         } else {
-            $validatedData['tauxNet'] = $validatedData['tauxBrut'] * 0.828;
+            $validatedData['tauxNet'] = ($validatedData['tauxBrut'] - $validatedData['frais']) * 0.828;
         }
         // Calcul du gain final
-        $validatedData['gainFinal'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100))/12 * $duree->m;
+        $validatedData['gainFinal'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100))/12 * $duree;
+
+        // Calcul des gains ponctuels en fonction du type de versement
+        if ($typeVersement == "Mensuel") {
+            $validatedData['gainPonctuel'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100))/12;
+        }
+        elseif ($typeVersement == "Semestriel") {
+            $validatedData['gainPonctuel'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100))/2;
+        }
+        elseif ($typeVersement == "Annuel") {
+            $validatedData['gainPonctuel'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100));
+        }
+        else {
+            $validatedData['gainPonctuel'] = 0;
+        }
         Projet::create($validatedData);
 
         return redirect()->route('projets.index');
@@ -101,18 +119,34 @@ class ProjetController extends Controller
         // Calcul de la durée
         $dateDebut = Carbon::parse($request->input('dateDebut'));
         $dateFin = Carbon::parse($request->input('dateFin'));
-        $duree = $dateDebut->diff($dateFin);
-        $validatedData['duree'] = $duree->m;
+        $duree = $dateDebut->floatDiffInMonths($dateFin);
+        $validatedData['duree'] = $duree;
+        $versement = Versement::find($validatedData['versement_id']);
+        $typeVersement = $versement->nom;
 
         // Calcul du tauxNet en fonction de la fiscalité
         if ($validatedData['fiscalite'] == 0) {
-            $validatedData['tauxNet'] = $validatedData['tauxBrut'] * 0.7;
+            $validatedData['tauxNet'] = ($validatedData['tauxBrut'] - $validatedData['frais']) * 0.7;
         } else {
-            $validatedData['tauxNet'] = $validatedData['tauxBrut'] * 0.828;
+            $validatedData['tauxNet'] = ($validatedData['tauxBrut'] - $validatedData['frais']) * 0.828;
         }
 
         // Calculez le gain final
-        $validatedData['gainFinal'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100))/12 * $duree->m;
+        $validatedData['gainFinal'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100))/12 * $duree;
+
+        // Calcul des gains ponctuels en fonction du type de versement
+        if ($typeVersement == "Mensuel") {
+            $validatedData['gainPonctuel'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100))/12;
+        }
+        elseif ($typeVersement == "Semestriel") {
+            $validatedData['gainPonctuel'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100))/2;
+        }
+        elseif ($typeVersement == "Annuel") {
+            $validatedData['gainPonctuel'] = ($validatedData['montantInvesti'] * (($validatedData['tauxNet']-$validatedData['frais'])/100));
+        }
+        else {
+            $validatedData['gainPonctuel'] = 0;
+        }
         $projet->update($validatedData);
 
         return redirect()->route('projets.index');

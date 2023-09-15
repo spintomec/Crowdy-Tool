@@ -67,19 +67,41 @@
                                     <label class="form-check-label" for="fiscalite_true">Oui</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="fiscal
                                     <input class="form-check-input" type="radio" name="fiscalite" id="fiscalite_false" value="0" {{ $projet->fiscalite == 0 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="fiscalite_false">Non</label>
+                                    <label class="form-check-label" for="fiscalite_false">Non</label>
+                                </div>
                             </div>
                             <x-input-error :messages="$errors->get('fiscalite')" class="mt-2" />
 
+
                             <!-- Date de début -->
                             <x-input-label class="mt-2" for="dateDebut" :value="__('Début')" />
-                            <input type="date" name="dateDebut" class="form-control" value="{{ $projet->dateDebut }}" required>
+                            <input type="date" name="dateDebut" id="dateDebut" class="form-control" value="{{ \Carbon\Carbon::parse($projet->dateDebut)->format('Y-m-d') }}" required>
 
                             <!-- Date de fin -->
                             <x-input-label class="mt-2" for="dateFin" :value="__('Fin')" />
-                            <input type="date" name="dateFin" class="form-control" value="{{ $projet->dateFin }}" required>
+                            <input type="date" name="dateFin" id="dateFin" class="form-control" value="{{ \Carbon\Carbon::parse($projet->dateFin)->format('Y-m-d') }}">
+
+                            <!-- Date fin > date début -->
+                            <script>
+                                const dateDebutInput = document.getElementById('dateDebut');
+                                const dateFinInput = document.getElementById('dateFin');
+
+                                // Fonction pour calculer la date minimale pour dateFin
+                                function setMinDateForDateFin() {
+                                    const dateDebutValue = new Date(dateDebutInput.value);
+                                    if (!isNaN(dateDebutValue.getTime())) {
+                                        dateDebutValue.setDate(dateDebutValue.getDate() + 7);
+
+                                        const minDate = dateDebutValue.toISOString().split('T')[0];
+
+                                        dateFinInput.min = minDate;
+                                    }
+                                }
+                                setMinDateForDateFin();
+                            </script>
+
+
 
                             <!-- Versement -->
                             <x-input-label class="mt-2" for="versement" :value="__('Type de Versement')" />
