@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Versement;
 use App\Models\Status;
 use App\Models\Plateforme;
-
+use App\Models\Remboursement;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Projet extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'plateforme_id', 'montantInvesti', 'frais', 'fiscalite', 'tauxBrut', 'tauxNet', 'duree', 'dateDebut', 'dateFin', 'versement_id', 'status_id', 'gainMensu', 'gainFinal'];
+    protected $fillable = ['nom', 'plateforme_id', 'montantInvesti', 'frais', 'fiscalite', 'tauxBrut', 'tauxNet', 'duree', 'dateDebut', 'dateFin', 'versement_id', 'status_id', 'gainFinal'];
 
 
     public function versement(): BelongsTo
@@ -28,5 +29,9 @@ class Projet extends Model
     public function pateforme(): BelongsTo
     {
         return $this->belongsTo(Plateforme::class);
+    }
+    public function remboursements(): BelongsToMany
+    {
+        return $this->BelongsToMany(Remboursement::class);
     }
 }

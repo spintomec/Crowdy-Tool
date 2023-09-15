@@ -25,7 +25,6 @@ class ProjetRequestTest extends TestCase
             'dateDebut' => '2023-09-15',
             'dateFin' => '2024-09-15',
             'versement_id' => 1,
-            'gainMensuel' => 1,
             'gainFinal' => 1,
         ];
 
@@ -42,7 +41,6 @@ class ProjetRequestTest extends TestCase
             'dateDebut' => 'required|date',
             'dateFin' => 'required|date',
             'versement_id' => 'required|exists:versements,id',
-            'gainMensuel' => 'required|numeric',
             'gainFinal' => 'required|numeric',
         ];
 

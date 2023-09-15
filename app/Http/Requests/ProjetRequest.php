@@ -18,6 +18,7 @@ class ProjetRequest extends FormRequest
         return [
             'nom' => 'required|string|max:255',
             'plateforme_id' => 'required|exists:plateformes,id',
+            'status_id' => 'required|exists:status,id',
             'montantInvesti' => 'required|numeric',
             'frais' => 'required|numeric',
             'fiscalite' => 'required|boolean',

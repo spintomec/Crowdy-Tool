@@ -6,12 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('projets', function (Blueprint $table) {
+
             $table->id();
             $table->string('nom');
             $table->unsignedBigInteger('plateforme_id');
@@ -25,7 +23,6 @@ return new class extends Migration
             $table->dateTime('dateDebut');
             $table->dateTime('dateFin');
             $table->unsignedBigInteger('versement_id');
-            $table->decimal('gainMensu');
             $table->decimal('gainFinal');
             $table->timestamps();
 
@@ -34,12 +31,9 @@ return new class extends Migration
             $table->foreign('versement_id')->references('id')->on('versements');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('projets');
     }
 };
