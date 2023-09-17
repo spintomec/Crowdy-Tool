@@ -31,7 +31,6 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">{{ $projet->nom_status }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">{{ $projet->montantInvesti }}€</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                        @if ($projet->total_montant != 0)
                                             <div class="relative flex items-center mt-2 px-5">
                                                 <div class="relative w-full bg-gray-200" style="margin-top:4px;">
                                                     <div class="flex absolute h-3 bg-gray-200 " style="width:100%"></div> 
@@ -49,10 +48,6 @@
                                                 <div class="absolute left-0 px-5 text-xs" style="top: -15px;">{{ number_format($projet->total_montant, 0, '', '') }}€</div>
                                                 <div class="absolute right-0 px-5 text-xs" style="top: -15px;">{{ number_format($projet->montantInvesti, 0, '', '') }}€</div>
                                             </div>
-                                        @else
-                                            <div class=" left-0 px-5">0€</div>
-                                             
-                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">{{ $projet->tauxBrut }}% / {{ $projet->tauxNet }}%</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-center">{{ $projet->frais }}%</td>
