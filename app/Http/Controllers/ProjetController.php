@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Projet;
 use Illuminate\Http\Request;
 use App\Models\Plateforme;
+use App\Models\Remboursement;
 use App\Models\Status;
 use App\Models\Versement;
 use Carbon\Carbon;
@@ -89,8 +90,25 @@ class ProjetController extends Controller
         return redirect()->route('projets.index');
     }
 
-    public function show(Projet $projet)
+    public function show($projetId)
     {
+        $remboursement = Remboursement::where('projet_id', $projetId);
+        $projet = DB::table('projets')
+            ->join('versements', 'projets.versement_id', '=', 'versements.id')
+            ->join('plateformes', 'projets.plateforme_id', '=', 'plateformes.id')
+            ->join('status', 'projets.status_id', '=', 'status.id')
+            ->leftJoin('remboursements', 'projets.id', '=', 'remboursements.projet_id')
+            ->select('projets.*', 'versements.nom as nom_versement', 'plateformes.nom as nom_plateforme', 'status.nom as nom_status', DB::raw('SUM(remboursements.montant) as total_montant'))
+            ->groupBy('projets.id', 'versements.nom', 'plateformes.nom', 'status.nom', 'projets.dateDebut', 'projets.dateFin', 'projets.nom', 'projets.created_at', 'projets.updated_at')
+            ->orderBy('nom_plateforme')
+            ->orderBy('dateDebut')
+            ->first();
+
+        $dateDebut = Carbon::parse($projet->dateDebut);
+        $dateFin = Carbon::parse($projet->dateFin);
+        $duree = ceil($dateDebut->diffInMonths($dateFin));
+
+        return view('projets.show', compact('projet', 'remboursement', 'duree'));
     }
 
     public function edit(Projet $projet)

@@ -44,16 +44,19 @@
                                                 style="width:{{ ($projet->total_montant / $projet->montantInvesti) * 100 }}%">
                                                 </div>
                                             </div>
-                                            <div class="absolute left-0 px-5 text-xs" style="top: -15px;">{{ number_format($projet->total_montant, 0, '', '') }}€</div>
-                                            <div class="absolute right-0 px-5 text-xs" style="top: -15px;">{{ number_format($projet->montantInvesti, 0, '', '') }}€</div>
+                                            <div class="absolute left-0 px-5 text-xs" style="top: -17px;">{{ number_format($projet->total_montant, 0, '', '') }}€</div>
+                                            <div class="absolute right-0 px-5 text-xs" style="top: -17px;">{{ number_format($projet->montantInvesti, 0, '', '') }}€</div>
                                             
-                                            <div class="absolute right-0 top-1/2 transform -translate-y-1/2">
-                                                <a href="{{ route('remboursements.create', ['projet_id' => $projet->id]) }}" class="text-white bg-green-600 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center mr-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" stroke-width="2" />
-                                                </svg>
-                                                </a>
-                                            </div>
+                                            @if ($projet->nom_status !== "Remboursé")
+                                                <div class="absolute right-0 top-1/2 transform -translate-y-1/2">
+                                                    <a href="{{ route('remboursements.create', ['projet_id' => $projet->id]) }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center mr-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus test" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" stroke-width="2" />
+                                                    </svg>
+                                                    </a>
+                                                </div>
+                                            @endif
+
                                         </div>
                                     </td>
                                     <td class="py-4 whitespace-nowrap description text-center align-middle">{{ $projet->tauxBrut }}% / {{ $projet->tauxNet }}%</td>

@@ -23,3 +23,6 @@
       font-size: 17px;
     }
   }
+  .test {
+    transform: scale(1.3);
+  }

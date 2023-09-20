@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 
     // Projets
     Route::get('/projets', [ProjetController::class, 'index'])->name('projets.index');
+    Route::get('/projets/{projet}', [ProjetController::class, 'show'])->name('projets.show');
     Route::get('/projets/create', [ProjetController::class, 'create'])->name('projets.create');
     Route::post('/projets/store', [ProjetController::class, 'store'])->name('projets.store');
     Route::get('/projets/{projet}/edit', [ProjetController::class, 'edit'])->name('projets.edit');
@@ -41,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/remboursements/{remboursement}/edit', [RemboursementController::class, 'edit'])->name('remboursements.edit');
     Route::put('/remboursements/{remboursement}', [RemboursementController::class, 'update'])->name('remboursements.update');
     Route::delete('/remboursements/{remboursement}', [RemboursementController::class, 'destroy'])->name('remboursements.destroy');
-    
+
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
