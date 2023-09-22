@@ -92,7 +92,7 @@ class ProjetController extends Controller
 
     public function show($projetId)
     {
-        $remboursement = Remboursement::where('projet_id', $projetId);
+        $remboursements = Remboursement::where('projet_id', $projetId)->orderBy('dateRemboursement')->get();
         $projet = DB::table('projets')
             ->join('versements', 'projets.versement_id', '=', 'versements.id')
             ->join('plateformes', 'projets.plateforme_id', '=', 'plateformes.id')
@@ -107,8 +107,9 @@ class ProjetController extends Controller
         $dateDebut = Carbon::parse($projet->dateDebut);
         $dateFin = Carbon::parse($projet->dateFin);
         $duree = ceil($dateDebut->diffInMonths($dateFin));
+        dump($remboursements);
 
-        return view('projets.show', compact('projet', 'remboursement', 'duree'));
+        return view('projets.show', compact('projet', 'remboursements', 'duree'));
     }
 
     public function edit(Projet $projet)
