@@ -30,7 +30,7 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($projets as $projet)
                                 <tr>
-                                    <td class="py-4 whitespace-nowrap description text-center align-middle">{{ $projet->nom }}</td>
+                                    <td class="py-4 whitespace-nowrap description text-center align-middle">{{ $projet->id }}</td>
                                     <td class="py-4 whitespace-nowrap description text-center align-middle">{{ $projet->nom_plateforme }}</td>
                                     <td class="py-4 whitespace-nowrap description text-center align-middle">{{ $projet->nom_status }}</td>
                                     <td class="py-4 whitespace-nowrap description text-center align-middle">{{ $projet->montantInvesti }}€</td>
@@ -65,7 +65,7 @@
                                                 </div>
                                                 <div id="tooltip-light" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 tooltip">
                                                     Nouveau remboursement
-                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                    <div class="tooltip-arrow" data-popper-arrow></div> 
                                                 </div>
                                             @endif
                                         </div>
@@ -83,17 +83,16 @@
                                     <td class="py-4 whitespace-nowrap description text-center align-middle">{{ $projet->gainFinal }}€</td>
                                     <td class="py-4 whitespace-nowrap description text-center align-middle">{{ $projet->nom_versement }}</td>
                                     {{-- Actions --}}
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
+                                    <td class="px-6 py-4 whitespace-nowrap text-center align-middle">
+                                        <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal{{ $projet->id }}" class="inline-flex items-center p-2 text-sm font-medium  text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
                                             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
                                             <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
                                             </svg>
                                         </button>
-                                        
-                                        <div id="dropdownDotsHorizontal" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                        <div id="dropdownDotsHorizontal{{ $projet->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                             <div class="pt-1">
-                                                <a href="{{ route('projets.show', $projet->id) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full focus:outline-none focus:ring focus:ring-opacity-50 no-underline">Consulter</a>
-                                                <a href="{{ route('projets.edit', $projet->id) }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full focus:outline-none focus:ring focus:ring-opacity-50 no-underline">Modifier</a>
+                                                <a href="{{ route('projets.show', $projet->id) }}" class="text-left block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full focus:outline-none focus:ring focus:ring-opacity-50 no-underline">Consulter</a>
+                                                <a href="{{ route('projets.edit', $projet->id) }}" class="text-left block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full focus:outline-none focus:ring focus:ring-opacity-50 no-underline">Modifier</a>
                                             </div>
                                             <div class="pb-1">
                                                 <form action="{{ route('projets.destroy', $projet->id) }}" method="POST">

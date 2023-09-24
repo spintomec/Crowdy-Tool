@@ -72,13 +72,20 @@
                             </div>
                             <x-input-error :messages="$errors->get('fiscalite')" class="mt-2" />
 
-                            <!-- Date de début -->
-                            <x-input-label class="mt-2" for="dateDebut" :value="__('Début')" />
-                            <input type="date" name="dateDebut" id="dateDebut" class="form-control" required>
+                            <!-- Dates -->
+                            <div class="mt-2" style="display: flex; align-items: center;">
+                                <div class="pr-1.5" style="flex: 1;">
+                                    <!-- Date de début -->
+                                    <x-input-label for="dateDebut" :value="__('Début')" />
+                                    <input type="date" name="dateDebut" id="dateDebut" class="form-control" required>
+                                </div>
 
-                            <!-- Date de fin -->
-                            <x-input-label class="mt-2" for="dateFin" :value="__('Fin')" />
-                            <input type="date" name="dateFin" id="dateFin" class="form-control" required>
+                                <div class="pl-1.5" style="flex: 1;">
+                                    <!-- Date de fin -->
+                                    <x-input-label for="dateFin" :value="__('Fin')" />
+                                    <input type="date" name="dateFin" id="dateFin" class="form-control" required>
+                                </div>
+                            </div>
 
                             <!-- Date fin > date début -->
                             <script>
